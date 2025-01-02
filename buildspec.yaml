@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_REGION: "ap-southeast-2"
+    AWS_ACCOUNT_ID: "585008087112"
+
 phases:
   install:
     runtime-versions:
