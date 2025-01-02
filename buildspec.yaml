@@ -13,10 +13,10 @@ phases:
       - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - echo "Retrieving image repository URI..."
-      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME
-      - echo "Repository URI: $REPOSITORY_URI"
-      - echo "Fetching latest image tag..."
-      - export IMAGE_TAG=$(git rev-parse --short HEAD)
+      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME
+      - echo "Repository URI is $REPOSITORY_URI"
+      - IMAGE_TAG=$(git rev-parse --short HEAD)
+      - echo "Image tag is $IMAGE_TAG"
 
   build:
     commands:
