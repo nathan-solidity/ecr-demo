@@ -4,9 +4,9 @@ env:
   variables:
     AWS_REGION: "ap-southeast-2"
     AWS_ACCOUNT_ID: "585008087112"
-    ECR_REPOSITORY_NAME: "nhanntnta/code-demo"  # Tên repository
-    AWS_ECS_CLUSTER: "nhannt-ecs-demo"     # Tên cluster ECS
-    AWS_ECS_SERVICE: "svc-demo"     # Tên service ECS
+    ECR_REPOSITORY_NAME: "nhanntnta/code-demo"
+    AWS_ECS_CLUSTER: "nhannt-ecs-demo"
+    AWS_ECS_SERVICE: "svc-demo"
 
 phases:
   install:
@@ -16,7 +16,7 @@ phases:
       - echo "Installing dependencies with yum..."
       - yum update -y
       - yum install -y jq curl unzip aws-cli
-      - aws --version  # Kiểm tra AWS CLI
+      - aws --version
 
   pre_build:
     commands:
@@ -46,4 +46,5 @@ phases:
 
 artifacts:
   files:
-    - "**
+    - "**/*"
+  discard-paths: yes
