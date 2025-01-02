@@ -13,10 +13,10 @@ phases:
       - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
       - echo "Retrieving image repository URI..."
-      - REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME
+      - export REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY_NAME
       - echo "Repository URI: $REPOSITORY_URI"
       - echo "Fetching latest image tag..."
-      - IMAGE_TAG=$(git rev-parse --short HEAD)
+      - export IMAGE_TAG=$(git rev-parse --short HEAD)
 
   build:
     commands:
@@ -31,8 +31,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
       - echo "Updating ECS service with new task definition..."
-      - ecs-cli configure profile --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY --profile-name ecs-profile
-      - ecs-cli compose --project-name $PROJECT_NAME --file ecs-compose.yml service up
+      - aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --task-definition $ECR_REPOSITORY_NAME --region $AWS_REGION
       - echo "Deployment complete."
 
 artifacts:
