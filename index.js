@@ -11,8 +11,8 @@ app.get('/', (req, res) => {
 
   console.log('Hello Nhan AWS');
   res.json({
-    serviceName: 'AWS ECS',
-    contactName: 'Nhan Nguyen',
+    serviceName: 'AWS ECS 444444',
+    contactName: 'Nhan Nguyen 444444',
     clientIp: clientIp,
     elbIP: elbIP,
     containerIP: containerIP,
@@ -21,5 +21,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(8080, () => {
-  console.log("App Started Successfully!");
+  console.log("App Started Successfully 444444!");
 });
