@@ -37,14 +37,13 @@ phases:
 
   post_build:
     commands:
-      - echo "Pushing the Docker image to Amazon ECR..."
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - echo "Updating ECS service with new task definition..."
-      - aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE --force-new-deployment --region $AWS_REGION
-      - echo "Deployment complete."
-
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"simple-app","imageUri":"%s"}]'
+        $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
 artifacts:
-  files:
-    - "**/*"
-  discard-paths: yes
+  files: imagedefinitions.json
